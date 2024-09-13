@@ -160,25 +160,25 @@ Additional details are described in <<#Zicbop>>.
 
 ==== #Cache-Index Operations#
 
-#A CIO instruction causes one or more operations to be performed on the cache
-index identified by the instruction. In general, a CIO instruction may identify
-one or more cache indices; however, in this CIO extension, CIO
-instructions identify a single cache index only.#
+A #CIO# instruction causes one or more operations to be performed on the cache
+#indices# identified by the instruction. In general, a #CIO# instruction may identify
+one or more cache #indices#; however, in #this CIO extension#, #CIO#
+instructions identify a single cache #index# only.
 
-#A cache-index management instruction performs one of the following operations,
-relative to the copy of an resident cache block stored at the provided cache index:#
+A #cache-index# management instruction performs one of the following operations,
+relative to the copy of a given #resident# cache block #stored at the provided cache index#, also known as an #indexed cache block#:
 
-* #An _invalidate operation_ deallocates the copy of the resident cache block#
+* An _invalidate operation_ deallocates the copy of the #indexed# cache block
 
-* #A _clean operation_ performs a write transfer to another cache or to memory if
-  the data in the copy of the resident cache block have been modified by a store
-  operation#
+* A _clean operation_ performs a write transfer to another cache or to memory if
+  the data in the copy of the #indexed# cache block have been modified by a store
+  operation
 
-* #A _flush operation_ atomically performs a clean operation followed by an
-  invalidate operation on the resident cache block#
+* A _flush operation_ atomically performs a clean operation followed by an
+  invalidate operation on the #indexed# cache block
 
-#Additional details, including the actual operation performed by a given
-cache-block management instruction, are described in <<#Ziciom>>.#
+Additional details, including the actual operation performed by a given
+#cache-index# management instruction, are described in #<<#Ziciom>>#.
 
 [#coherent-agents-caches,reftext="Coherent Agents and Caches"]
 === Coherent Agents and Caches
@@ -210,7 +210,7 @@ be present in a system at the same time. An _implementation-specific_ mechanism
 keeps these copies coherent with respect to the load and store operations from
 the agents in the set of coherent agents. Additionally, if a coherent agent in
 the set executes a CBO instruction that specifies the cache block,
-#or a CIO instruction that identifies a resident cache block,#
+#or a CIO instruction that identifies an #indexed# cache block,#
 the resulting
 operation shall apply to any and all of the copies in the caches that can be
 accessed by the load and store operations from the coherent agents.
@@ -275,7 +275,7 @@ then _a_ will precede _b_ in the global memory order if:
   overlapping memory addresses
 
 #Cache-index management instructions behave similarly, except the addresses
-and any overlap are determined by the cache blocks resident at the specified indices.#
+and any overlap are determined from the #indexed# cache blocks.#
 
 [NOTE]
 ====
@@ -402,7 +402,7 @@ translation does not permit any access or raises a store access fault exception
 otherwise #CHECK THIS#. During address translation, the instruction also checks the accessed
 bit and may either raise an exception or set the bit as required.
 
-#Do we have to check PMP/PMA for underlying physical address of a resident block
+#Do we have to check PMP/PMA for underlying physical address of an indexed block
 operated on by a CIO? Presumably the address was previously vetted when the load
 or store was performed that caused the underlying cache block to be allocated or modified.#
 
@@ -877,7 +877,7 @@ _Future extensions may define different sets of agents for the purposes of
 performance optimization._
 ====
 
-These instructions operate on the cache block #resident in the cache index that is#
+These instructions operate on the #indexed cache block resident in the cache at the index#
 specified in _rs1_. +++<S>+++The effective address is translated into a corresponding
 physical address by the appropriate translation mechanisms.+++</S>+++
 
@@ -1307,8 +1307,8 @@ Encoding::
 
 Description::
 
-A *cio.clean* instruction performs a clean operation on the cache block resident
-in the cache index specified in _rs1_. The offset operand may
+A *cio.clean* instruction performs a clean operation on the #indexed# cache block
+specified in _rs1_. The offset operand may
 be omitted; otherwise, any expression that computes the offset shall evaluate to
 zero. The instruction operates on the set of coherent caches accessed by the
 agent executing the instruction.
@@ -1350,8 +1350,8 @@ Encoding::
 
 Description::
 
-A *cio.flush* instruction performs a flush operation on the cache block resident
-in the cache index specified in _rs1_. The offset operand may
+A *cio.flush* instruction performs a flush operation on the #indexed# cache block
+specified in _rs1_. The offset operand may
 be omitted; otherwise, any expression that computes the offset shall evaluate to
 zero. The instruction operates on the set of coherent caches accessed by the
 agent executing the instruction.
@@ -1385,8 +1385,8 @@ Encoding::
 
 Description::
 
-A *cio.inval* instruction performs an invalidate operation on the cache block
-resident in the cache index specified in _rs1_. The offset
+A *cio.inval* instruction performs an invalidate operation on the #indexed# cache block
+specified in _rs1_. The offset
 operand may be omitted; otherwise, any expression that computes the offset shall
 evaluate to zero. The instruction operates on the set of coherent caches
 accessed by the agent executing the instruction. Depending on CSR programming,
